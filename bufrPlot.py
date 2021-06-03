@@ -6,7 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 #Open the file
-bufr = ncepbufr.open("/work/noaa/stmp/svarga/gdas.t00z.adpupa.tm00.bufr_d") 
+bufr = ncepbufr.open("FILENAME") 
 bufr.advance()
 bufr.advance()
 bufr.advance() #Has to advance three times: load subset fails if less than three, and causes a crash if it advances more than three times. 5 times also works
