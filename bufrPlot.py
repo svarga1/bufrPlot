@@ -6,7 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 #Open the file
-bufr = ncepbufr.open(filePath)
+bufr = ncepbufr.open("/work/noaa/stmp/svarga/gdas.t00z.adpupa.tm00.bufr_d") 
 bufr.advance()
 bufr.advance()
 bufr.advance() #Has to advance three times: load subset fails if less than three, and causes a crash if it advances more than three times. 5 times also works
@@ -14,7 +14,7 @@ bufr.advance() #Has to advance three times: load subset fails if less than three
 bufr.load_subset()
 
 #Variables
-dryBulb=bufr.read__subset('TMDB').squeeze()-273.15 #Converts from K to C
+dryBulb=bufr.read_subset('TMDB').squeeze()-273.15 #Converts from K to C
 pressure=bufr.read_subset('PRLC').squeeze()/100 #Converts from Pa to hPa
 
 #Location and Date
@@ -28,3 +28,25 @@ print(np.shape(dryBulb))
 print(np.shape(pressure))
 print(lon)
 print(lat)
+
+#Histograms to test DQ and make sure I can see plots
+
+#fig = plt.figure() 
+#plt.hist(dryBulb)
+#plt.title('Dry Bulb Temperature')
+#plt.savefig('dryBulb.png')
+
+#fig = plt.figure()
+#plt.hist(pressure)
+#plt.title('Pressure')
+#plt.savefig('pressure.png')
+
+
+#Plot Pressure vs. DBT
+
+fig=plt.figure()
+plt.scatter(dryBulb,pressure)
+plt.title('Dry Bulb Temperature from Station X')
+plt.xlabel('Dry Bulb Temperature (C' + u'\N{degree sign}' + ')')
+plt.ylabel('Pressure (hPa)')
+plt.savefig('sounding.png')
