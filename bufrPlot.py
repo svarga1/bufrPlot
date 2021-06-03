@@ -49,4 +49,6 @@ plt.scatter(dryBulb,pressure)
 plt.title('Dry Bulb Temperature from Station X')
 plt.xlabel('Dry Bulb Temperature (C' + u'\N{degree sign}' + ')')
 plt.ylabel('Pressure (hPa)')
-plt.savefig('sounding.png')
+ax=plt.gca()
+ax.set_ylim(ax.get_ylim()[::-1]) #Inverts the y-axis
+plt.savefig('/work/noaa/stmp/svarga/bufrPlotExamples/sounding.png')
