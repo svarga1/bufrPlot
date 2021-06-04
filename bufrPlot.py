@@ -7,8 +7,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-FILEPATH='' 
-OUTPUTPATH=''
+FILEPATH='/work/noaa/stmp/svarga/gdas.t00z.adpupa.tm00.bufr_d' 
+OUTPUTPATH='.'
 
 
 #Open the file
@@ -16,9 +16,13 @@ bufr = ncepbufr.open(FILEPATH)
 bufr.advance()
 bufr.advance()
 bufr.advance() #Has to advance three times to start; Calling load_subset before this returns -1. Can use advance n times after to cycle through the different observations. Need to check if the bufr object is iterable, i.e. can it be used to loop through all the observations in the set/ how to know when it has no new data? 
-#bufr.advance()
-#bufr.advance()
-bufr.load_subset()
+
+#Loop to the last file
+i =1 # counter
+while i < 384: #Should step through to the last file, not an efficient way though 
+	bufr.advance()
+	i+=1
+bufr.load_subset() #only load the last subset
 
 #Variables
 dryBulb=bufr.read_subset('TMDB').squeeze()-273.15 #Converts from K to C
