@@ -19,14 +19,15 @@ def descBufrFile(FILE):
 	bufr=ready(FILE)
 	
 	numSub=np.float(bufr.subsets)
-	numData=len(bufr.read_subset('PRLC').squeeze()) #Uses pressure as a default, not a great thing.
+	numData=len(bufr.read_subset('PRLC').squeeze()) #Uses pressure as a default, not a great thing. Only works for these files
 
 	while bufr.advance()==0:
-		numSub+=np.float(bufr.subsets)
+		numSub+=np.float(bufr.subsets) #Tracks the number of subsets
 		while bufr.load_subset()==0 :
 			try:
-				numData+=len(bufr.read_subset('PRLC').squeeze())
+				numData+=len(bufr.read_subset('PRLC').squeeze()) #Tracks the number of data points
 			except:
 				pass
-		numMes+=1
+		numMes+=1 #Tracks the total number of messages
+	bufr.close() #Closes the file
 	return numMes, numSub, numData
