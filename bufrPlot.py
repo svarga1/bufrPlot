@@ -11,16 +11,19 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-FILEPATH=''
-OUTPUTPATH=''
+FILEPATH='/work/noaa/stmp/svarga/gdas.t00z.adpupa.tm00.bufr_d' 
+OUTPUTPATH='.'
 
 
 #Open the file
 bufr = ncepbufr.open(FILEPATH) 
 bufr.advance()
 bufr.advance()
+
+
 bufr.advance() #Has to advance three times to start for the test file; Calling load_subset before this returns -1. 
 bufr.load_subset()
+
 
 #Variables
 dryBulb=bufr.read_subset('TMDB').squeeze()-273.15 #Converts from K to C
